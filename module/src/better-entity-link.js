@@ -99,7 +99,7 @@ Hooks.on('ready', () => {
     });
 
     // JournalEntry - "Show players (Text)" button
-    BetterEntityLink.registerJournalEntryAction({
+    BetterEntityLink.registerJournalEntryPageAction({
         name: `${game.i18n.localize("JOURNAL.ActionShow")} (${game.i18n.localize("JOURNAL.ModeText")})`,
         icon: "fa-eye",
         condition: entity => entity?.img !== CONST.DEFAULT_TOKEN && (game.user.isGM || game.user.isTrusted),
@@ -116,7 +116,7 @@ Hooks.on('ready', () => {
     });
 
     // JournalEntry - "Show players (Image)" button
-    BetterEntityLink.registerJournalEntryAction({
+    BetterEntityLink.registerJournalEntryPageAction({
         name: `${game.i18n.localize("JOURNAL.ActionShow")} (${game.i18n.localize("JOURNAL.ModeImage")})`,
         icon: "fa-eye",
         condition: entity => entity?.img !== CONST.DEFAULT_TOKEN && (game.user.isGM || game.user.isTrusted),
@@ -130,6 +130,26 @@ Hooks.on('ready', () => {
                 }));
             });
         }
+    });
+
+    // JournalEntry - "Jump to Pin" button
+    BetterEntityLink.registerJournalEntryAction({
+        name: "SIDEBAR.JumpPin",
+        icon: "fa-crosshairs",
+        condition: entity => 
+            !!entity.sceneNote,
+        callback: async entity => 
+            entity.panToNote()
+    });
+
+    // JournalEntryPage - "Jump to Pin" button
+    BetterEntityLink.registerJournalEntryPageAction({
+        name: "SIDEBAR.JumpPin",
+        icon: "fa-crosshairs",
+        condition: entity => 
+            !!entity.sceneNote,
+        callback: async entity => 
+            canvas.notes.panToNote(entity.sceneNote)
     });
 
     // Cardstacks - "Shuffle" button
