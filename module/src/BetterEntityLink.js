@@ -87,6 +87,7 @@ export class BetterEntityLink {
         module.registerItemAction = BetterEntityLink.registerItemAction;
         module.registerSceneAction = BetterEntityLink.registerSceneAction;
         module.registerJournalEntryAction = BetterEntityLink.registerJournalEntryAction;
+        module.registerJournalEntryPageAction = BetterEntityLink.registerJournalEntryPageAction;
         module.registerMacroAction = BetterEntityLink.registerMacroAction;
         module.registerRolltableAction = BetterEntityLink.registerRolltableAction;
         module.registerCardStacksAction = BetterEntityLink.registerCardStacksAction;
@@ -102,8 +103,8 @@ export class BetterEntityLink {
         const actionMenu = {
             name: options.name,
             icon: `<i class="fas ${options.icon}"></i>`,
-            condition: async li => {
-                const entity = await fromUuid(li.data("uuid"));
+            condition: li => {
+                const entity = fromUuidSync(li.data("uuid"));
                 return entityType.localeCompare(entity.documentName, undefined, {sensitivity: "base"}) === 0
                         && (options.condition instanceof Function && options.condition(entity));
             },
