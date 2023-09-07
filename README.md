@@ -55,6 +55,7 @@ Actions menu must be register on "ready" event. All module methods are registere
   * registerItemAction(options)
   * registerSceneAction(options)
   * registerJournalEntryAction(options)
+  * registerJournalEntryPageAction(options)
   * registerMacroAction(options)
   * registerRolltableAction(options)
 

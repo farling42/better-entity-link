@@ -40,6 +40,10 @@ export class BetterEntityLink {
         return BetterEntityLink.registerAction("JournalEntry", options);
     }
 
+    static registerJournalEntryPageAction(options) {
+        return BetterEntityLink.registerAction("JournalEntryPage", options);
+    }
+
     static registerMacroAction(options) {
         return BetterEntityLink.registerAction("Macro", options);
     }
@@ -62,6 +66,7 @@ export class BetterEntityLink {
             "Item": [],
             "Scene": [],
             "JournalEntry": [],
+            "JournalEntryPage": [],
             "Macro": [],
             "RollTable": [],
             "Cards": [],
@@ -98,12 +103,12 @@ export class BetterEntityLink {
             name: options.name,
             icon: `<i class="fas ${options.icon}"></i>`,
             condition: async li => {
-                const entity = await this._resolveEntity(entityType, li.data("id"), li.data("pack"));
+                const entity = await fromUuid(li.data("uuid"));
                 return entityType.localeCompare(entity.documentName, undefined, {sensitivity: "base"}) === 0
                         && (options.condition instanceof Function && options.condition(entity));
             },
             callback: async li => {
-                const entity = await this._resolveEntity(entityType, li.data("id"), li.data("pack"));
+                const entity = await fromUuid(li.data("uuid"));
                 return await options.callback(entity);
             }
         }
@@ -128,13 +133,6 @@ export class BetterEntityLink {
                 this.enhanceEntityLink(app, $(link));
             }
         }, 100);
-    }
-
-    async _resolveEntity(type, id, packId) {
-        if (packId) {            
-            return await game.packs.get(packId)?.getDocument(id);
-        }
-        return game.collections.get(type)?.get(id);
     }
 
     _resolveEntityType(entityLink) {
